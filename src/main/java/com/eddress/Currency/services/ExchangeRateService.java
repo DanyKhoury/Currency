@@ -6,6 +6,7 @@ import com.eddress.Currency.entities.ExchangeRate;
 import com.eddress.Currency.exception.CurrencyNotFoundException;
 import com.eddress.Currency.repositories.IExchangeRateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,20 +27,16 @@ public class ExchangeRateService implements IExchangeRateService {
 
     @Autowired
     private IExchangeRateRepository exchangeRateRepository;
+
+    @Value("${exchange.rate.api.key}")
+    private String apiKey;
+
+    @Value("${exchange.rate.api.host}")
+    private String apiHost;
     @Transactional
     public void updateExchangeRates(String baseCurrency) throws IOException, InterruptedException {
 
-        String requestUri = "https://exchange-rate-api1.p.rapidapi.com/latest?base=" + baseCurrency;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(requestUri))
-                .header("X-RapidAPI-Key", "a9247fa569msh46ec62c4a63130ap1d4a09jsnf0b15c2b20d4")
-                .header("X-RapidAPI-Host", "exchange-rate-api1.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
+        HttpResponse<String> response = fetchExchangeRatesFromExchangeRateAPI(baseCurrency);
 
 
         ObjectMapper mapper = new ObjectMapper();
@@ -58,6 +55,20 @@ public class ExchangeRateService implements IExchangeRateService {
             exchangeRate.setUpdatedAt(LocalDateTime.now());
             exchangeRateRepository.save(exchangeRate);
         });
+    }
+
+    private  HttpResponse<String> fetchExchangeRatesFromExchangeRateAPI(String baseCurrency) throws IOException, InterruptedException {
+        String requestUri = "https://exchange-rate-api1.p.rapidapi.com/latest?base=" + baseCurrency;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(requestUri))
+                .header("X-RapidAPI-Key", apiKey)
+                .header("X-RapidAPI-Host", apiHost)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        return response;
     }
 
     public List<ExchangeRate> getAllExchangeRates() {
