@@ -1,7 +1,7 @@
 package com.eddress.Currency.services;
 
 import com.eddress.Currency.IServices.IExchangeRateService;
-import com.eddress.Currency.RequestDto.ConversionRequestDTO;
+import com.eddress.Currency.dto.ConversionRequestDTO;
 import com.eddress.Currency.entities.ExchangeRate;
 import com.eddress.Currency.exception.CurrencyNotFoundException;
 import com.eddress.Currency.repositories.IExchangeRateRepository;

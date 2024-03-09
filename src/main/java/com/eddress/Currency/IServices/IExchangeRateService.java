@@ -1,6 +1,6 @@
 package com.eddress.Currency.IServices;
 
-import com.eddress.Currency.RequestDto.ConversionRequestDTO;
+import com.eddress.Currency.dto.ConversionRequestDTO;
 import com.eddress.Currency.entities.ExchangeRate;
 
 import java.io.IOException;

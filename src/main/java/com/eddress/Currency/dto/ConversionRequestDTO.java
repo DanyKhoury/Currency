@@ -1,4 +1,4 @@
-package com.eddress.Currency.RequestDto;
+package com.eddress.Currency.dto;
 
 import java.math.BigDecimal;
 

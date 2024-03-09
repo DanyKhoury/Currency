@@ -1,11 +1,11 @@
 package com.eddress.Currency.controllers;
 
 import com.eddress.Currency.IServices.IExchangeRateService;
-import com.eddress.Currency.RequestDto.ConversionRequestDTO;
-import com.eddress.Currency.RequestDto.CurrencyCreationRequest;
+import com.eddress.Currency.dto.ConversionRequestDTO;
+import com.eddress.Currency.dto.CurrencyCreationRequest;
 import com.eddress.Currency.entities.ExchangeRate;
 import com.eddress.Currency.exception.CurrencyNotFoundException;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
